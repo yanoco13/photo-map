@@ -2,11 +2,14 @@ import React, { useEffect, useRef } from 'react';
 
 const MapComponent = () => {
   const mapRef = useRef(null);
+  
+  
 
   useEffect(() => {
     const loadGoogleMapsScript = () => {
+      const api_key = process.env.REACT_APP_API_KEY;
       const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=(Constants.apiKey)`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=` + api_key;
       script.async = true;
       script.defer = true;
       script.onload = initMap;
