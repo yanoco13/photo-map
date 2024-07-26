@@ -1,5 +1,6 @@
 import React from "react";
 import MapComponent from "./utils/MapComponent";
+import RegistSpot from "./utils/RegistSpot";
 
 function App() {
   return (
