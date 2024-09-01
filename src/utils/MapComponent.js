@@ -4,9 +4,11 @@ import RegistSpot from './RegistSpot';
 const MapComponent = () => {
   const mapRef = useRef(null);
   const [showComponent, setShowComponent] = useState(false);
+  const [position, setPosition] = useState({lat : 0, lng : 0});
   const infowindowRef = useRef(null);
-  
-  const handleButtonClick = () => {
+
+  const handleButtonClick = (latLng) => {
+    setPosition({lat: latLng.lat(), lng: latLng.lng()});
     setShowComponent(true);
   };
 
@@ -33,11 +35,9 @@ const MapComponent = () => {
 
       map.addListener('rightclick', (event) => {
         const latLng = event.latLng;
-
         const marker = new window.google.maps.Marker({
           position: { lat: latLng.lat(), lng: latLng.lng() },
           map,
-          title: "Hello World!",
         });
 
         infowindowRef.current.open({
@@ -48,7 +48,7 @@ const MapComponent = () => {
         window.google.maps.event.addListenerOnce(infowindowRef.current, 'domready', () => {
           const button = document.getElementById('regist-sopt');
           if (button) {
-            button.addEventListener('click', handleButtonClick);
+            button.addEventListener('click', () => handleButtonClick(latLng));
           }
         });
       });
@@ -57,12 +57,13 @@ const MapComponent = () => {
     loadGoogleMapsScript();
   }, []);
 
+
   return (
     <div
       ref={mapRef}
       style={{ width: '100%', height: '800px' }}
     >
-      {showComponent ? <RegistSpot /> : null}
+      <RegistSpot showFlag={showComponent} setShowComponent={setShowComponent} position={position}/>
     </div>
   );
 };
